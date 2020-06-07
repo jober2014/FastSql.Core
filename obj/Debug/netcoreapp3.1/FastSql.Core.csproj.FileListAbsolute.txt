@@ -3,7 +3,7 @@ D:\Study\WXCORE\FastSql.Core\bin\Debug\netcoreapp3.1\FastSql.Core.dll
 D:\Study\WXCORE\FastSql.Core\bin\Debug\netcoreapp3.1\FastSql.Core.pdb
 D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.AssemblyInfoInputs.cache
 D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.AssemblyInfo.cs
-D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.csproj.CoreCompileInputs.cache
 D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.dll
 D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.pdb
 D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.csprojAssemblyReference.cache
+D:\Study\WXCORE\FastSql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.csproj.CoreCompileInputs.cache
