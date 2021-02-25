@@ -21,7 +21,7 @@ namespace FastSql.Core
 
         private readonly T mode;
 
-        public CreateSql(string table=null)
+        public CreateSql(string table = null)
         {
             mode = default(T);
             Sqlbuilder = new StringBuilder();
@@ -34,7 +34,7 @@ namespace FastSql.Core
             {
                 TableName = table;
             }
-           
+
             pro = _type.GetProperties();
 
         }
@@ -65,22 +65,97 @@ namespace FastSql.Core
             sb.Clear();
             return this;
         }
+        /// <summary>
+        /// 查询SQL
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="mode">对象</param>
+        /// <param name="colnm">选择字段：默认所有</param>
+        /// <returns></returns>
+        public CreateSql<T> SelectNoLock(string[] colnm = null)
+        {
+            var sb = new StringBuilder();
+            string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
+            foreach (var item in pro)
+            {
+                if (colnm != null)
+                {
+                    if (colnm.Contains(item.Name))
+                    {
+                        sb.Append($"[{item.Name}],");
+                    }
+                }
+                else
+                    sb.Append($"[{item.Name}],");
+            }
+            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
+            sb.Clear();
+            return this;
+        }
 
         /// <summary>
         /// 插入数据SQL
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="mode"></param>
+        /// <param name="mark">参数符：默认@</param>
+        /// <param name="hasKey">是否包含主键：默认True</param>
         /// <returns></returns>
-        public CreateSql<T> Insert(string mark = "@")
+        public CreateSql<T> Insert(string mark = "@", bool hasKey = true)
         {
             string sqlstr = "INSERT INTO [{2}]({0}) VALUES({1})";
             var sb = new StringBuilder();
             var pb = new StringBuilder();
+            var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
             foreach (var item in pro)
             {
-                sb.Append($"[{item.Name}],");
-                pb.Append($"{mark}{item.Name},");
+                if (hasKey)
+                {
+                    sb.Append($"[{item.Name}],");
+                    pb.Append($"{mark}{item.Name},");
+                }
+                else
+                {
+                    if (key != null && key.Select(s => s.Name).Contains(item.Name))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        sb.Append($"[{item.Name}],");
+                        pb.Append($"{mark}{item.Name},");
+                    }
+
+                }
+
+
+            }
+            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), pb.ToString().TrimEnd(','), TableName));
+            sb.Clear();
+            pb.Clear();
+            return this;
+        }
+        /// <summary>
+        /// 插入数据SQL用于自增主键（该方法只对SQLSERVER有效）
+        /// </summary>
+        /// <returns></returns>
+        public CreateSql<T> InsertAutoKey()
+        {
+            string sqlstr = "INSERT INTO [{2}]({0}) VALUES({1});SELECT SCOPE_IDENTITY();";
+            var sb = new StringBuilder();
+            var pb = new StringBuilder();
+            var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
+            foreach (var item in pro)
+            {
+                //排除主键
+                if (key != null && key.Select(s => s.Name).Contains(item.Name))
+                {
+                    continue;
+                }
+                else
+                {
+                    sb.Append($"[{item.Name}],");
+                    pb.Append($"@{item.Name},");
+                }
+
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), pb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -260,6 +335,16 @@ namespace FastSql.Core
             }
             return this;
         }
+
+        public CreateSql<T> In(Guid[] arr)
+        {
+            if (arr != null)
+            {
+                var str = ArrayToSplit(arr);
+                Sqlbuilder.Append($" IN ({str})");
+            }
+            return this;
+        }
         /// <summary>
         ///  IN 操作
         /// </summary>
@@ -322,19 +407,33 @@ namespace FastSql.Core
             return this;
         }
         /// <summary>
-        /// 排序
+        /// 排序操作
         /// </summary>
-        /// <param name="sqlstr">排序条件</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sb"></param>
+        /// <param name="sqlstr">条件</param>
         /// <returns></returns>
-        public CreateSql<T> OrderBy(string sqlstr)
+        public CreateSql<T> Order_By(string sqlstr)
         {
             if (sqlstr != null)
             {
-                Sqlbuilder.Append($" Order By  {sqlstr}");
+                Sqlbuilder.Append($" ORDER BY {sqlstr}");
             }
             return this;
         }
 
+        /// <summary>
+        ///  顺序
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sb"></param>
+        /// <param name="sqlstr">条件</param>
+        /// <returns></returns>
+        public CreateSql<T> Desc()
+        {
+            Sqlbuilder.Append(" DESC ");
+            return this;
+        }
         public CreateSql<T> Append(string str)
         {
             Sqlbuilder.Append(" " + str);
@@ -350,6 +449,22 @@ namespace FastSql.Core
             return Sqlbuilder.ToString();
         }
         private string ArrayToSplit(string[] Arr)
+        {
+            var str = string.Empty;
+            if (Arr != null)
+            {
+                var sb = new StringBuilder();
+                for (int i = 0; i < Arr.Length; i++)
+                {
+                    sb.Append($"'{Arr[i]}',");
+                }
+                str = sb.ToString().TrimEnd(',');
+            }
+            return str.TrimEnd(',');
+
+        }
+
+        private string ArrayToSplit(Guid[] Arr)
         {
             var str = string.Empty;
             if (Arr != null)
