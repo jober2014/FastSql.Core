@@ -56,12 +56,15 @@ Demo:
     2.0 Version
     1.查询表数据：
 写法1：
+
  var sql = new CreateSql<Users>().Select();
  var rdata = DapperExt.QueryList(sql);
 写法2：
+ 
  var lsit= new CreateSql<Users>().Select().QueryList();
 
 写法3：可以重载指定表名，或指定查询的字段如：
+
    var sql = new CreateSql<Users>("Users").Select(new string[] {"Id","UserName" });
    var rdata = DapperExt.QueryList(sql);
 或者
@@ -69,7 +72,8 @@ var list= new CreateSql<Users>("Users").Select(new string[] {"Id","UserName" }).
 QueryList();
 
 2.查询单个对象
- var sql = new CreateSql<Users>().Select().Where("Id='843DB63F-252E-436F-B666-F4F8755793B8'");
+
+var sql = new CreateSql<Users>().Select().Where("Id='843DB63F-252E-436F-B666-F4F8755793B8'");
 var rdata = DapperExt.QueryList(sql);
 或者
 Var model=CreateSql<Users>().Select()
@@ -82,7 +86,8 @@ var sql = new CreateSql<Users>().SelectNoLock().Where("Id='843DB63F-252E-436F-B6
  var data= new CreateSql<Users>().SelectNoLock().Where("Id='843DB63F-252E-436F-B666-F4F8755793B8'").QueryFirst();
 
 4.新增操作
- var model = new Users() { 
+
+var model = new Users() { 
 Id = Guid.NewGuid(),
  Age = 20,
  Sex = "女",
@@ -95,7 +100,8 @@ Id = Guid.NewGuid(),
  var model = new Users() { Id = Guid.NewGuid(), Age = 20, Sex = "女", UserName = "test", addr = "", CreateTime = DateTime.Now };
  var sql = new CreateSql<Users>().Insert().Add(model);
 5.修改操作
-   var model = new Users() { Id = Guid.NewGuid(), Age = 20, Sex = "女", UserName = "test", addr = "", CreateTime = DateTime.Now };
+
+ var model = new Users() { Id = Guid.NewGuid(), Age = 20, Sex = "女", UserName = "test", addr = "", CreateTime = DateTime.Now };
 var sql = new CreateSql<Users>()
 .Updata().Where($"Id='843DB63F-252E-436F-B666-F4F8755793B8'");
 var rdata = DapperExt.Modify(sql, model);
@@ -105,6 +111,7 @@ var rdata = DapperExt.Modify(sql, model);
 .Where($"Id='843DB63F-252E-436F-B666-F4F8755793B8'").Modify(model);
 
 6.删除操作
+
   var sql = new CreateSql<Users>().Delete().Where($"Id='{data.Id}'");
   var rdata = DapperExt.Remove(sql);
 或者
@@ -113,9 +120,11 @@ var rdata = DapperExt.Modify(sql, model);
 
 
 7.事务操作
+
 说明：事务封装类：DapperTransaction，构造参数可以传入数据库连接字符串：
 var dt = new DapperTransaction(DbConfig.SqlConnectString)
 1.事务处理操作：
+
   var model = new Users() { 
 Id = Guid.NewGuid(),
  Age = 20, Sex = "女",
