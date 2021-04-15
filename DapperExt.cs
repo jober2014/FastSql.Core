@@ -167,6 +167,24 @@ namespace FastSql.Core
             return result;
 
         }
+        /// <summary>
+        /// 修改更新操作
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="createSql"></param>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        public static bool Modify<T>(this CreateSql<T> createSql, object models) where T : class, new()
+        {
+            var result = false;
+
+            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            {
+                result = con.Execute(createSql.ToSqlString(), models) > 0;
+            }
+            return result;
+
+        }
 
         /// <summary>
         /// 修改更新事务操作
@@ -177,6 +195,27 @@ namespace FastSql.Core
         /// <param name="models">对象</param>
         /// <returns></returns>
         public static bool Modify<T>(this CreateSql<T> createSql, DapperTransaction dtran, T models) where T : class, new()
+        {
+            var result = false;
+
+            if (dtran != null)
+            {
+                result = dtran.dbConnection.Execute(createSql.ToSqlString(), models, dtran.dbTransaction) > 0;
+            }
+
+            return result;
+
+        }
+
+        /// <summary>
+        /// 修改更新事务操作
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="dtran">事务</param>
+        /// <param name="createSql">SQL构造器</param>
+        /// <param name="models">对象</param>
+        /// <returns></returns>
+        public static bool Modify<T>(this CreateSql<T> createSql, DapperTransaction dtran, object models) where T : class, new()
         {
             var result = false;
 
@@ -409,13 +448,33 @@ namespace FastSql.Core
         /// </summary>
         /// <param name="sql">SQL</param>
         /// <returns></returns>
-        public static DataTable GetDataTable(string sql)
+        public static DataTable GetDataTable(this string sql)
         {
 
             var dt = new DataTable();
             using (var con = new SqlConnection(DbConfig.SqlConnectString))
             {
                 using (var sqlDataAdapter = new SqlDataAdapter(sql, con))
+                {
+                    sqlDataAdapter.Fill(dt);
+                }
+
+            }
+            return dt;
+
+        }
+        /// <summary>
+        /// 返回datatable
+        /// </summary>
+        /// <param name="sql">SQL</param>
+        /// <returns></returns>
+        public static DataTable GetDataTable<T>(this CreateSql<T> createSql) where T : class, new()
+        {
+
+            var dt = new DataTable();
+            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            {
+                using (var sqlDataAdapter = new SqlDataAdapter(createSql.ToSqlString(), con))
                 {
                     sqlDataAdapter.Fill(dt);
                 }
@@ -447,6 +506,36 @@ namespace FastSql.Core
                             sqlDataAdapter.SelectCommand.Parameters.Add(parm);
                         }
                     }                  
+                    sqlDataAdapter.Fill(dt);
+                }
+
+            }
+            return dt;
+
+        }
+        /// <summary>
+        /// 返回Datatable
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <param name="sqlparam">参数</param>
+        /// <returns></returns>
+        public static DataTable GetDataTable<T>(this CreateSql<T> createSql, Dictionary<string, object> sqlparam) where T : class, new()
+        {
+
+            var dt = new DataTable();
+            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            {
+
+                using (var sqlDataAdapter = new SqlDataAdapter(createSql.ToSqlString(), con))
+                {
+                    if (sqlparam != null)
+                    {
+                        foreach (var item in sqlparam)
+                        {
+                            var parm = new SqlParameter(item.Key, item.Value);
+                            sqlDataAdapter.SelectCommand.Parameters.Add(parm);
+                        }
+                    }
                     sqlDataAdapter.Fill(dt);
                 }
 

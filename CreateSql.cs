@@ -23,6 +23,8 @@ namespace FastSql.Core
 
         private readonly T mode;
 
+        private string mark = "@";
+
         private string databaseType = "sqlserver";
 
         public CreateSql(string table = null)
@@ -57,6 +59,15 @@ namespace FastSql.Core
             }
             if (!string.IsNullOrEmpty(DatabaseType))
             {
+                switch (DatabaseType)
+                {
+                    case DataBaseType.SqlServer: this.mark = "@"; break;
+                    case DataBaseType.MySql: this.mark = "?"; break;
+                    case DataBaseType.Oracle: this.mark = ":"; break;
+                    case DataBaseType.PostGreSql: this.mark = ":"; break;
+                    case DataBaseType.Sqlite: this.mark = "@"; break;
+                    case DataBaseType.Access: this.mark = "@"; break;
+                }
                 this.databaseType = DatabaseType;
             }
             pro = _type.GetProperties();
@@ -75,7 +86,7 @@ namespace FastSql.Core
             string sqlstr = "SELECT {0} FROM [{1}]";
             foreach (var item in pro)
             {
-                if (colnm.Length>0)
+                if (colnm.Length > 0)
                 {
                     if (colnm.Contains(item.Name))
                     {
@@ -130,7 +141,7 @@ namespace FastSql.Core
             string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
             foreach (var item in pro)
             {
-                if (colnm.Length>0)
+                if (colnm.Length > 0)
                 {
                     if (colnm.Contains(item.Name))
                     {
@@ -185,7 +196,7 @@ namespace FastSql.Core
         /// <param name="mark">参数符：默认@</param>
         /// <param name="hasKey">是否包含主键：默认True</param>
         /// <returns></returns>
-        public CreateSql<T> Insert(string mark = "@", bool hasKey = true)
+        public CreateSql<T> Insert(bool hasKey = true)
         {
             string sqlstr = "INSERT INTO [{2}]({0}) VALUES({1})";
             var sb = new StringBuilder();
@@ -257,7 +268,7 @@ namespace FastSql.Core
         /// <param name="mark">参数符号：默认@</param>
         /// <param name="remove">过滤字段</param>
         /// <returns></returns>
-        public CreateSql<T> Updata(string mark = "@",params string[] colnm)
+        public CreateSql<T> Updata(params string[] colnm)
         {
 
             string sqlstr = "UPDATE [{0}] SET {1}";
@@ -266,7 +277,7 @@ namespace FastSql.Core
             var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
             foreach (var item in pro)
             {
-                if (colnm.Length>0)
+                if (colnm.Length > 0)
                 {
                     if (!colnm.Contains(item.Name))
                     {
@@ -313,7 +324,7 @@ namespace FastSql.Core
         /// <param name="mark">参数符号：默认@</param>
         /// <param name="remove">过滤字段</param>
         /// <returns></returns>
-        public CreateSql<T> Updata(Expression<Func<T, object>> expression,string mark = "@")
+        public CreateSql<T> Updata(Expression<Func<T, object>> expression)
         {
 
             string sqlstr = "UPDATE [{0}] SET {1}";
@@ -649,7 +660,7 @@ namespace FastSql.Core
             }
             return str;
         }
-        private  string[] ResloveName(Expression<Func<T, object>> expression)
+        private string[] ResloveName(Expression<Func<T, object>> expression)
         {
             var result = new List<string>();
             if (expression.Body.GetType().Name == "PropertyExpression")
