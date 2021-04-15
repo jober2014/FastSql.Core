@@ -167,17 +167,23 @@ var data2 = new CreateSql<Users>().SelectNoLock()
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 2.0 版本更新内容：
            1.新增拉母表达式sql解析，例如：
+           
            //select
+           
             var sql = new CreateSql<Users>().Select(s => new { s.Id, s.UserName }).Where(w=>w.Sex=="男").QueryList();
 
+
             var user = new Users();
+            
             //insert
             new CreateSql<Users>().Insert().Add(user);
 
             //update
+            
             new CreateSql<Users>().Updata().Where(w=>w.Id==Guid.Empty).Modify(user);
 
             new CreateSql<Users>().Updata(u => u.UserName).Where(w => w.Id == Guid.Empty).Modify(user);
 
             //delete
+            
             new CreateSql<Users>().Delete().Where(w=>w.Id==Guid.Empty).Remove();
