@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
@@ -21,6 +23,8 @@ namespace FastSql.Core
 
         private readonly T mode;
 
+        private string databaseType = "sqlserver";
+
         public CreateSql(string table = null)
         {
             mode = default(T);
@@ -38,6 +42,26 @@ namespace FastSql.Core
             pro = _type.GetProperties();
 
         }
+        public CreateSql(string DatabaseType, string table = null)
+        {
+            mode = default(T);
+            Sqlbuilder = new StringBuilder();
+            _type = typeof(T);
+            if (string.IsNullOrEmpty(table))
+            {
+                TableName = typeof(T).Name;
+            }
+            else
+            {
+                TableName = table;
+            }
+            if (!string.IsNullOrEmpty(DatabaseType))
+            {
+                this.databaseType = DatabaseType;
+            }
+            pro = _type.GetProperties();
+
+        }
         /// <summary>
         /// 查询SQL
         /// </summary>
@@ -45,13 +69,68 @@ namespace FastSql.Core
         /// <param name="mode">对象</param>
         /// <param name="colnm">选择字段：默认所有</param>
         /// <returns></returns>
-        public CreateSql<T> Select(string[] colnm = null)
+        public CreateSql<T> Select(params string[] colnm)
         {
             var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}]";
             foreach (var item in pro)
             {
-                if (colnm != null)
+                if (colnm.Length>0)
+                {
+                    if (colnm.Contains(item.Name))
+                    {
+                        sb.Append($"[{item.Name}],");
+                    }
+                }
+                else
+                    sb.Append($"[{item.Name}],");
+            }
+            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
+            sb.Clear();
+            return this;
+        }
+
+        public CreateSql<T> Select(Expression<Func<T, object>> expression)
+        {
+            var sb = new StringBuilder();
+            string sqlstr = "SELECT {0} FROM [{1}]";
+            if (expression.Body.GetType().Name == "PropertyExpression")
+            {
+                dynamic body = expression.Body;
+                if (body != null)
+                {
+                    sb.Append($"[{body.Member.Name}]");
+                }
+            }
+            else if (expression.Body.GetType().Name == "NewExpression")
+            {
+                var body = expression.Body as NewExpression;
+                if (body != null)
+                {
+                    foreach (var item in body.Members)
+                    {
+                        sb.Append($"{item.Name},");
+                    }
+                }
+            }
+            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
+            sb.Clear();
+            return this;
+        }
+        /// <summary>
+        /// 查询SQL
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="mode">对象</param>
+        /// <param name="colnm">选择字段：默认所有</param>
+        /// <returns></returns>
+        public CreateSql<T> SelectNoLock(params string[] colnm)
+        {
+            var sb = new StringBuilder();
+            string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
+            foreach (var item in pro)
+            {
+                if (colnm.Length>0)
                 {
                     if (colnm.Contains(item.Name))
                     {
@@ -72,21 +151,28 @@ namespace FastSql.Core
         /// <param name="mode">对象</param>
         /// <param name="colnm">选择字段：默认所有</param>
         /// <returns></returns>
-        public CreateSql<T> SelectNoLock(string[] colnm = null)
+        public CreateSql<T> SelectNoLock(Expression<Func<T, object>> expression)
         {
             var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
-            foreach (var item in pro)
+            if (expression.Body.GetType().Name == "PropertyExpression")
             {
-                if (colnm != null)
+                dynamic body = expression.Body;
+                if (body != null)
                 {
-                    if (colnm.Contains(item.Name))
+                    sb.Append($"[{body.Member.Name}]");
+                }
+            }
+            else if (expression.Body.GetType().Name == "NewExpression")
+            {
+                var body = expression.Body as NewExpression;
+                if (body != null)
+                {
+                    foreach (var item in body.Members)
                     {
-                        sb.Append($"[{item.Name}],");
+                        sb.Append($"{item.Name},");
                     }
                 }
-                else
-                    sb.Append($"[{item.Name}],");
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -171,7 +257,7 @@ namespace FastSql.Core
         /// <param name="mark">参数符号：默认@</param>
         /// <param name="remove">过滤字段</param>
         /// <returns></returns>
-        public CreateSql<T> Updata(string mark = "@", string[] colnm = null)
+        public CreateSql<T> Updata(string mark = "@",params string[] colnm)
         {
 
             string sqlstr = "UPDATE [{0}] SET {1}";
@@ -180,7 +266,7 @@ namespace FastSql.Core
             var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
             foreach (var item in pro)
             {
-                if (colnm != null)
+                if (colnm.Length>0)
                 {
                     if (!colnm.Contains(item.Name))
                     {
@@ -197,6 +283,7 @@ namespace FastSql.Core
                     else
                     {
                         sb.Append($"[{item.Name}]={mark}{item.Name},");
+
                     }
                 }
                 else
@@ -218,7 +305,63 @@ namespace FastSql.Core
             return this;
         }
 
+        /// <summary>
+        /// SQL修改
+        /// </summary>
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <param name="mode">对象实体</param>
+        /// <param name="mark">参数符号：默认@</param>
+        /// <param name="remove">过滤字段</param>
+        /// <returns></returns>
+        public CreateSql<T> Updata(Expression<Func<T, object>> expression,string mark = "@")
+        {
 
+            string sqlstr = "UPDATE [{0}] SET {1}";
+            var sb = new StringBuilder();
+            var colnm = ResloveName(expression);
+            //获取实体主键
+            var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
+            foreach (var item in pro)
+            {
+                if (colnm.Length > 0)
+                {
+                    if (!colnm.Contains(item.Name))
+                    {
+                        continue;
+                    }
+                }
+                //过滤主键或ID
+                if (key != null && key.Any())
+                {
+                    if (key.Select(s => s.Name).Contains(item.Name))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+
+                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+
+                    }
+                }
+                else
+                {
+                    if (item.Name.ToLower().Equals("id"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+                    }
+                }
+
+
+            }
+            Sqlbuilder.Append(string.Format(sqlstr, TableName, sb.ToString().TrimEnd(',')));
+            sb.Clear();
+            return this;
+        }
         /// <summary>
         /// 构造删除SQL
         /// </summary>
@@ -247,6 +390,23 @@ namespace FastSql.Core
             return this;
 
         }
+
+        /// <summary>
+        /// 拼接条件
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public CreateSql<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            if (predicate != null)
+            {
+                var sqlWhere = SqlBuild.WhereByLambda<T>(predicate);
+                Sqlbuilder.Append(" WHERE " + sqlWhere);
+            }
+            return this;
+
+        }
+
 
         /// <summary>
         /// and条件
@@ -488,6 +648,30 @@ namespace FastSql.Core
                 str = string.Join(",", arr);
             }
             return str;
+        }
+        private  string[] ResloveName(Expression<Func<T, object>> expression)
+        {
+            var result = new List<string>();
+            if (expression.Body.GetType().Name == "PropertyExpression")
+            {
+                dynamic body = expression.Body;
+                if (body != null)
+                {
+                    result.Add(body.Member.Name);
+                }
+            }
+            else if (expression.Body.GetType().Name == "NewExpression")
+            {
+                var body = expression.Body as NewExpression;
+                if (body != null)
+                {
+                    foreach (var item in body.Members)
+                    {
+                        result.Add(item.Name);
+                    }
+                }
+            }
+            return result.ToArray();
         }
     }
 }

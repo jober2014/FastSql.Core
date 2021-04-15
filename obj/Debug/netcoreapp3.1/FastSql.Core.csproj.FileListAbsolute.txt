@@ -16,3 +16,12 @@ D:\Study\Fastsql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.AssemblyInfo.cs
 D:\Study\Fastsql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.csproj.CoreCompileInputs.cache
 D:\Study\Fastsql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.dll
 D:\Study\Fastsql.Core\obj\Debug\netcoreapp3.1\FastSql.Core.pdb
+D:\Study\FastSql\bin\Debug\netcoreapp3.1\FastSql.Core.deps.json
+D:\Study\FastSql\bin\Debug\netcoreapp3.1\FastSql.Core.dll
+D:\Study\FastSql\bin\Debug\netcoreapp3.1\FastSql.Core.pdb
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.csprojAssemblyReference.cache
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.AssemblyInfoInputs.cache
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.AssemblyInfo.cs
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.csproj.CoreCompileInputs.cache
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.dll
+D:\Study\FastSql\obj\Debug\netcoreapp3.1\FastSql.Core.pdb

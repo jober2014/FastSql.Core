@@ -1,0 +1,12 @@
+D:\Study\FastSql\bin\Debug\net5.0\FastSql.Core.deps.json
+D:\Study\FastSql\bin\Debug\net5.0\FastSql.Core.dll
+D:\Study\FastSql\bin\Debug\net5.0\ref\FastSql.Core.dll
+D:\Study\FastSql\bin\Debug\net5.0\FastSql.Core.pdb
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.csprojAssemblyReference.cache
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.AssemblyInfoInputs.cache
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.AssemblyInfo.cs
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.csproj.CoreCompileInputs.cache
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.dll
+D:\Study\FastSql\obj\Debug\net5.0\ref\FastSql.Core.dll
+D:\Study\FastSql\obj\Debug\net5.0\FastSql.Core.pdb
