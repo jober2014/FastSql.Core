@@ -53,6 +53,10 @@ namespace FastSql.Core
                 {
                     conditionBuilder.Arguments[i] = ce.ToString();
                 }
+                else if (ce is Guid)
+                {
+                    conditionBuilder.Arguments[i] = $"'{ce}'";
+                }
                 else if (ce is ValueType)
                 {
                     conditionBuilder.Arguments[i] = ce.ToString();
