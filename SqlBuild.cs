@@ -16,12 +16,10 @@ namespace FastSql.Core
         public static string WhereByLambda<T>(Expression<Func<T, bool>> predicate, string databaseType = "sqlserver")
         {
             bool withQuotationMarks = GetWithQuotationMarks(databaseType);
-
             ConditionBuilder conditionBuilder = new ConditionBuilder();
             conditionBuilder.SetIfWithQuotationMarks(withQuotationMarks);
             conditionBuilder.SetDataBaseType(databaseType);
             conditionBuilder.Build(predicate);
-
             for (int i = 0; i < conditionBuilder.Arguments.Length; i++)
             {
                 object ce = conditionBuilder.Arguments[i];
