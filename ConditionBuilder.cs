@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FastSql.Core
 {
-   internal class ConditionBuilder: ExpressionVisitor
+    internal class ConditionBuilder : ExpressionVisitor
     {
         /// <summary>
         /// 数据库类型
@@ -80,81 +80,48 @@ namespace FastSql.Core
 
         protected override Expression VisitBinary(BinaryExpression b)
         {
-            if (b == null) return b;
-
             string opr;
+            if (b == null) return b;
             switch (b.NodeType)
             {
-                case ExpressionType.Equal:
-                    opr = "=";
-                    break;
-                case ExpressionType.NotEqual:
-                    opr = "<>";
-                    break;
-                case ExpressionType.GreaterThan:
-                    opr = ">";
-                    break;
-                case ExpressionType.GreaterThanOrEqual:
-                    opr = ">=";
-                    break;
-                case ExpressionType.LessThan:
-                    opr = "<";
-                    break;
-                case ExpressionType.LessThanOrEqual:
-                    opr = "<=";
-                    break;
-                case ExpressionType.AndAlso:
-                    opr = "AND";
-                    break;
-                case ExpressionType.OrElse:
-                    opr = "OR";
-                    break;
-                case ExpressionType.Add:
-                    opr = "+";
-                    break;
-                case ExpressionType.Subtract:
-                    opr = "-";
-                    break;
-                case ExpressionType.Multiply:
-                    opr = "*";
-                    break;
-                case ExpressionType.Divide:
-                    opr = "/";
-                    break;
+                case ExpressionType.Equal: opr = "="; break;
+                case ExpressionType.NotEqual: opr = "<>"; break;
+                case ExpressionType.GreaterThan: opr = ">"; break;
+                case ExpressionType.GreaterThanOrEqual: opr = ">="; break;
+                case ExpressionType.LessThan: opr = "<"; break;
+                case ExpressionType.LessThanOrEqual: opr = "<="; break;
+                case ExpressionType.AndAlso: opr = "AND"; break;
+                case ExpressionType.OrElse: opr = "OR"; break;
+                case ExpressionType.Add: opr = "+"; break;
+                case ExpressionType.Subtract: opr = "-"; break;
+                case ExpressionType.Multiply: opr = "*"; break;
+                case ExpressionType.Divide: opr = "/"; break;
                 default:
                     throw new NotSupportedException(b.NodeType + "is not supported.");
             }
 
             this.Visit(b.Left);
             this.Visit(b.Right);
-
             string right = this.m_conditionParts.Pop();
             string left = this.m_conditionParts.Pop();
-
             string condition = String.Format("({0} {1} {2})", left, opr, right);
             this.m_conditionParts.Push(condition);
-
             return b;
         }
 
         protected override Expression VisitConstant(ConstantExpression c)
         {
             if (c == null) return c;
-
             this.m_arguments.Add(c.Value);
             this.m_conditionParts.Push(String.Format("{{{0}}}", this.m_arguments.Count - 1));
-
             return c;
         }
-
         protected override Expression VisitMemberAccess(MemberExpression m)
         {
             if (m == null) return m;
 
             PropertyInfo propertyInfo = m.Member as PropertyInfo;
             if (propertyInfo == null) return m;
-
-            //   this.m_conditionParts.Push(String.Format("(Where.{0})", propertyInfo.Name));
             //是否添加引号
             if (m_ifWithQuotationMarks)
             {
@@ -162,7 +129,6 @@ namespace FastSql.Core
             }
             else
             {
-                // this.m_conditionParts.Push(String.Format("[{0}]", propertyInfo.Name));
                 this.m_conditionParts.Push(String.Format(" {0} ", propertyInfo.Name));
             }
 
@@ -175,12 +141,9 @@ namespace FastSql.Core
             string sb = "(";
             //先处理左边
             sb += ExpressionRouter(left);
-
             sb += ExpressionTypeCast(type);
-
             //再处理右边
             string tmpStr = ExpressionRouter(right);
-
             if (tmpStr == "null")
             {
                 if (sb.EndsWith(" ="))
@@ -198,13 +161,11 @@ namespace FastSql.Core
             string sb = string.Empty;
             if (exp is BinaryExpression)
             {
-
                 BinaryExpression be = ((BinaryExpression)exp);
                 return BinarExpressionProvider(be.Left, be.Right, be.NodeType);
             }
             else if (exp is MemberExpression)
             {
-
                 MemberExpression me = ((MemberExpression)exp);
                 return me.Member.Name;
             }
@@ -259,34 +220,22 @@ namespace FastSql.Core
             switch (type)
             {
                 case ExpressionType.And:
-                case ExpressionType.AndAlso:
-                    return " AND ";
-                case ExpressionType.Equal:
-                    return " =";
-                case ExpressionType.GreaterThan:
-                    return " >";
-                case ExpressionType.GreaterThanOrEqual:
-                    return ">=";
-                case ExpressionType.LessThan:
-                    return "<";
-                case ExpressionType.LessThanOrEqual:
-                    return "<=";
-                case ExpressionType.NotEqual:
-                    return "<>";
+                case ExpressionType.AndAlso: return " AND ";
+                case ExpressionType.Equal: return " =";
+                case ExpressionType.GreaterThan: return " >";
+                case ExpressionType.GreaterThanOrEqual: return ">=";
+                case ExpressionType.LessThan: return "<";
+                case ExpressionType.LessThanOrEqual: return "<=";
+                case ExpressionType.NotEqual: return "<>";
                 case ExpressionType.Or:
-                case ExpressionType.OrElse:
-                    return " Or ";
+                case ExpressionType.OrElse: return " Or ";
                 case ExpressionType.Add:
-                case ExpressionType.AddChecked:
-                    return "+";
+                case ExpressionType.AddChecked: return "+";
                 case ExpressionType.Subtract:
-                case ExpressionType.SubtractChecked:
-                    return "-";
-                case ExpressionType.Divide:
-                    return "/";
+                case ExpressionType.SubtractChecked: return "-";
+                case ExpressionType.Divide: return "/";
                 case ExpressionType.Multiply:
-                case ExpressionType.MultiplyChecked:
-                    return "*";
+                case ExpressionType.MultiplyChecked: return "*";
                 default:
                     return null;
             }
@@ -295,14 +244,16 @@ namespace FastSql.Core
 
 
         /// <summary>
-        /// ConditionBuilder 并不支持生成Like操作，如 字符串的 StartsWith，Contains，EndsWith 并不能生成这样的SQL： Like ‘xxx%’, Like ‘%xxx%’ , Like ‘%xxx’ . 只要override VisitMethodCall 这个方法即可实现上述功能。
+        /// ConditionBuilder 并不支持生成Like操作，
+        /// 如 字符串的 StartsWith，Contains，EndsWith 并不能生成这样的SQL： Like ‘xxx%’, Like ‘%xxx%’ , Like ‘%xxx’ .
+        /// 只要override VisitMethodCall 这个方法即可实现上述功能。
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
-            string connectorWords = GetLikeConnectorWords(m_dataBaseType); //获取like链接符
-
+            //获取like链接符
+            string connectorWords = GetLikeConnectorWords(m_dataBaseType);
             if (m == null) return m;
             string format;
             switch (m.Method.Name)
@@ -329,7 +280,6 @@ namespace FastSql.Core
             this.Visit(m.Arguments[0]);
             string right = this.m_conditionParts.Pop();
             string left = this.m_conditionParts.Pop();
-
             this.m_conditionParts.Push(String.Format(format, left, right));
             return m;
         }
@@ -352,13 +302,8 @@ namespace FastSql.Core
                     result = "||";
                     break;
             }
-
             return result;
         }
 
     }
-
-
-
 }
-
