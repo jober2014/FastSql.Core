@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace FastSql.Core
 {
-   public class SqlBuild
+    public class SqlBuild
     {
         #region Expression 转成 where
         /// <summary>
@@ -15,7 +13,7 @@ namespace FastSql.Core
         /// <param name="predicate"></param>
         /// <param name="databaseType">数据类型（用于字段是否加引号）</param>
         /// <returns></returns>
-        public static string WhereByLambda<T>(Expression<Func<T, bool>> predicate, string databaseType= "sqlserver")
+        public static string WhereByLambda<T>(Expression<Func<T, bool>> predicate, string databaseType = "sqlserver")
         {
             bool withQuotationMarks = GetWithQuotationMarks(databaseType);
 
@@ -33,10 +31,10 @@ namespace FastSql.Core
                 }
                 else if (ce is string || ce is char)
                 {
-                    if (ce.ToString().ToLower().Trim().IndexOf(@"in(") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0 ||
-                         ce.ToString().ToLower().Trim().IndexOf(@" like '") == 0 ||
-                        ce.ToString().ToLower().Trim().IndexOf(@"not like") == 0)
+                    if (ce.ToString().ToLower().Trim().IndexOf(@"in(") == 0
+                        || ce.ToString().ToLower().Trim().IndexOf(@"not in(") == 0
+                        || ce.ToString().ToLower().Trim().IndexOf(@" like '") == 0
+                        || ce.ToString().ToLower().Trim().IndexOf(@"not like") == 0)
                     {
                         conditionBuilder.Arguments[i] = string.Format(" {0} ", ce.ToString());
                     }
@@ -63,13 +61,10 @@ namespace FastSql.Core
                 }
                 else
                 {
-
                     conditionBuilder.Arguments[i] = string.Format("'{0}'", ce.ToString());
                 }
-
             }
-            string strWhere = string.Format(conditionBuilder.Condition, conditionBuilder.Arguments);
-            return strWhere;
+            return string.Format(conditionBuilder.Condition, conditionBuilder.Arguments);
         }
 
         /// <summary>
@@ -82,19 +77,13 @@ namespace FastSql.Core
             bool result = false;
             switch (databaseType.ToLower())
             {
-
                 case DataBaseType.PostGreSql:
                 case DataBaseType.Oracle:
-
                     result = true;
                     break;
             }
-
             return result;
-
-
         }
-
 
         #endregion
 
