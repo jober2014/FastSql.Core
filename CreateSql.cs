@@ -592,7 +592,41 @@ namespace FastSql.Core
             }
             return this;
         }
-
+        /// <summary>
+        /// 排序操作
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sb"></param>
+        /// <param name="sqlstr">条件</param>
+        /// <returns></returns>
+        public CreateSql<T> Order_By(Expression<Func<T, object>> expression)
+        {
+            var sb = new StringBuilder();
+            if (expression != null)
+            {
+                if (expression.Body.GetType().Name == "PropertyExpression")
+                {
+                    dynamic body = expression.Body;
+                    if (body != null)
+                    {
+                        sb.Append($"[{body.Member.Name}]");
+                    }
+                }
+                else if (expression.Body.GetType().Name == "NewExpression")
+                {
+                    var body = expression.Body as NewExpression;
+                    if (body != null)
+                    {
+                        foreach (var item in body.Members)
+                        {
+                            sb.Append($"{item.Name},");
+                        }
+                    }
+                }
+                Sqlbuilder.Append($" ORDER BY {sb.ToString().TrimEnd(',')}");
+            }
+            return this;
+        }
         /// <summary>
         ///  顺序
         /// </summary>
