@@ -415,12 +415,20 @@ namespace FastSql.Core
         /// <param name="createSql">SQL构造器</param>
         /// <param name="models">参数</param>
         /// <returns></returns>
-        public static object ExeScalar<T>(this CreateSql<T> createSql, object models) where T : class, new()
+        public static object ExeScalar<T>(this CreateSql<T> createSql, object models = null) where T : class, new()
         {
             object result = null;
             using (var con = new SqlConnection(DbConfig.SqlConnectString))
             {
-                result = con.ExecuteScalar(createSql.ToSqlString(), models);
+                if (models != null)
+                {
+                    result = con.ExecuteScalar(createSql.ToSqlString(), models);
+                }
+                else
+                {
+                    result = con.ExecuteScalar(createSql.ToSqlString());
+                }
+
             }
             return result;
 
@@ -489,12 +497,12 @@ namespace FastSql.Core
         /// <param name="sql">sql</param>
         /// <param name="sqlparam">参数</param>
         /// <returns></returns>
-        public static DataTable GetDataTable(string sql,Dictionary<string,object> sqlparam )
+        public static DataTable GetDataTable(string sql, Dictionary<string, object> sqlparam)
         {
 
             var dt = new DataTable();
             using (var con = new SqlConnection(DbConfig.SqlConnectString))
-            {             
+            {
 
                 using (var sqlDataAdapter = new SqlDataAdapter(sql, con))
                 {
@@ -502,10 +510,10 @@ namespace FastSql.Core
                     {
                         foreach (var item in sqlparam)
                         {
-                            var parm = new SqlParameter(item.Key,item.Value);
+                            var parm = new SqlParameter(item.Key, item.Value);
                             sqlDataAdapter.SelectCommand.Parameters.Add(parm);
                         }
-                    }                  
+                    }
                     sqlDataAdapter.Fill(dt);
                 }
 
