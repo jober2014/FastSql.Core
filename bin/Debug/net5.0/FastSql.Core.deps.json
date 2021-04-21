@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "FastSql.Core/1.0.0": {
+      "FastSql.Core/2.0.0": {
         "dependencies": {
           "Dapper": "2.0.35",
           "Newtonsoft.Json": "12.0.3",
@@ -114,7 +114,7 @@
     }
   },
   "libraries": {
-    "FastSql.Core/1.0.0": {
+    "FastSql.Core/2.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
