@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>jump</Copyright>
