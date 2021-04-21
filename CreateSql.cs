@@ -120,9 +120,14 @@ namespace FastSql.Core
                 {
                     foreach (var item in body.Members)
                     {
-                        sb.Append($"{item.Name},");
+                        sb.Append($"[{item.Name}],");
                     }
                 }
+            }
+            else if (expression.Body.GetType().Name == "UnaryExpression")
+            {
+                dynamic body = expression.Body;
+                sb.Append($"[{body.Operand.Member.Name}]");
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -181,9 +186,14 @@ namespace FastSql.Core
                 {
                     foreach (var item in body.Members)
                     {
-                        sb.Append($"{item.Name},");
+                        sb.Append($"[{item.Name}],");
                     }
                 }
+            }
+            else if (expression.Body.GetType().Name == "UnaryExpression")
+            {
+                dynamic body = expression.Body;
+                sb.Append($"[{body.Operand.Member.Name}]");
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -619,9 +629,14 @@ namespace FastSql.Core
                     {
                         foreach (var item in body.Members)
                         {
-                            sb.Append($"{item.Name},");
+                            sb.Append($"[{item.Name}],");
                         }
                     }
+                }
+                else if (expression.Body.GetType().Name == "UnaryExpression")
+                {
+                    dynamic body = expression.Body;
+                    sb.Append($"[{body.Operand.Member.Name}]");
                 }
                 Sqlbuilder.Append($" ORDER BY {sb.ToString().TrimEnd(',')}");
             }
@@ -715,6 +730,11 @@ namespace FastSql.Core
                         result.Add(item.Name);
                     }
                 }
+            }
+            else if (expression.Body.GetType().Name == "UnaryExpression")
+            {
+                dynamic body = expression.Body;              
+                result.Add(body.Operand.Member.Name);
             }
             return result.ToArray();
         }
