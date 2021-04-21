@@ -687,9 +687,14 @@ namespace FastSql.Core
                     {
                         foreach (var item in body.Members)
                         {
-                            sb.Append($"{item.Name},");
+                            sb.Append($"[{item.Name}],");
                         }
                     }
+                }
+                else if (expression.Body.GetType().Name == "UnaryExpression")
+                {
+                    dynamic body = expression.Body;
+                    sb.Append($"[{body.Operand.Member.Name}]");
                 }
             }
             return sb.ToString().TrimEnd(',');
