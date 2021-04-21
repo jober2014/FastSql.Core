@@ -2,7 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>2.0.1</Version>
+    <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Copyright>jump</Copyright>
+    <NeutralLanguage></NeutralLanguage>
+    <PackageReleaseNotes>ORM框架，支付MSSQL,MYSQL,ORCAL,SQLLITE 等主流数据库。</PackageReleaseNotes>
+    <Authors>Jump</Authors>
+    <Company>Jump</Company>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />

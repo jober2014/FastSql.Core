@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "FastSql.Core/1.0.0": {
+      "FastSql.Core/2.0.1": {
         "dependencies": {
           "Dapper": "2.0.35",
           "Newtonsoft.Json": "12.0.3",
@@ -114,7 +114,7 @@
     }
   },
   "libraries": {
-    "FastSql.Core/1.0.0": {
+    "FastSql.Core/2.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -157,21 +157,21 @@
     "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-DSuODarI1Jn/SmBEMbSXID97HL3yOHGbK03UcfdYz1dAw4p1zZ3YBLwVz7cIsmKOfHSSW7DVWmfMd6WoC6tHZA==",
+      "sha512": "sha512-LbrynESTp3bm5O/+jGL8v0Qg5SJlTV08lpIpFesXjF6uGNMWqFnUQbYBJwZTeua6E/Y7FIM1C54Ey1btLWupdg==",
       "path": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
     },
     "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-UaKAxyD3smhNXTFj1dx6326cotkkVJgj1oFoKapNW7fAn7Lk5BuaEG1/9Gwby+a9vfrBmUjBxGvSeeFg8BQDnA==",
+      "sha512": "sha512-38ugOfkYJqJoX9g6EYRlZB5U2ZJH51UP8ptxZgdpS07FgOEToV+lS11ouNK2PM12Pr6X/PpT5jK82G3DwH/SxQ==",
       "path": "runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
     },
     "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BVRcXwnUKvFEHQgj7H+Whtq/B424k9nCrOrJ+F3nhX5NuuVg2rMe8fvBZCFfmMEUx407TM9EexHZqK8Xo+YMmw==",
+      "sha512": "sha512-YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
     },

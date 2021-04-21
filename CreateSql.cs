@@ -103,34 +103,8 @@ namespace FastSql.Core
 
         public CreateSql<T> Select(Expression<Func<T, object>> expression)
         {
-            var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}]";
-            if (expression.Body.GetType().Name == "PropertyExpression")
-            {
-                dynamic body = expression.Body;
-                if (body != null)
-                {
-                    sb.Append($"[{body.Member.Name}]");
-                }
-            }
-            else if (expression.Body.GetType().Name == "NewExpression")
-            {
-                var body = expression.Body as NewExpression;
-                if (body != null)
-                {
-                    foreach (var item in body.Members)
-                    {
-                        sb.Append($"[{item.Name}],");
-                    }
-                }
-            }
-            else if (expression.Body.GetType().Name == "UnaryExpression")
-            {
-                dynamic body = expression.Body;
-                sb.Append($"[{body.Operand.Member.Name}]");
-            }
-            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
-            sb.Clear();
+            Sqlbuilder.Append(string.Format(sqlstr, this.LamdaToString(expression), TableName));
             return this;
         }
         /// <summary>
@@ -169,34 +143,8 @@ namespace FastSql.Core
         /// <returns></returns>
         public CreateSql<T> SelectNoLock(Expression<Func<T, object>> expression)
         {
-            var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
-            if (expression.Body.GetType().Name == "PropertyExpression")
-            {
-                dynamic body = expression.Body;
-                if (body != null)
-                {
-                    sb.Append($"[{body.Member.Name}]");
-                }
-            }
-            else if (expression.Body.GetType().Name == "NewExpression")
-            {
-                var body = expression.Body as NewExpression;
-                if (body != null)
-                {
-                    foreach (var item in body.Members)
-                    {
-                        sb.Append($"[{item.Name}],");
-                    }
-                }
-            }
-            else if (expression.Body.GetType().Name == "UnaryExpression")
-            {
-                dynamic body = expression.Body;
-                sb.Append($"[{body.Operand.Member.Name}]");
-            }
-            Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
-            sb.Clear();
+            Sqlbuilder.Append(string.Format(sqlstr, this.LamdaToString(expression), TableName));
             return this;
         }
 
@@ -230,10 +178,7 @@ namespace FastSql.Core
                         sb.Append($"[{item.Name}],");
                         pb.Append($"{mark}{item.Name},");
                     }
-
                 }
-
-
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), pb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -402,7 +347,7 @@ namespace FastSql.Core
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public CreateSql<T> Where(string _where = "")
+        public CreateSql<T> Where(string _where)
         {
             if (Sqlbuilder != null)
             {
@@ -421,7 +366,7 @@ namespace FastSql.Core
         {
             if (predicate != null)
             {
-                var sqlWhere = SqlBuild.WhereByLambda<T>(predicate);
+                var sqlWhere = SqlBuild.WhereByLambda(predicate);
                 Sqlbuilder.Append(" WHERE " + sqlWhere);
             }
             return this;
@@ -434,7 +379,7 @@ namespace FastSql.Core
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public CreateSql<T> And(string _and = "")
+        public CreateSql<T> And(string _and)
         {
             if (Sqlbuilder != null)
             {
@@ -448,7 +393,7 @@ namespace FastSql.Core
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public CreateSql<T> Or(string _or = "")
+        public CreateSql<T> Or(string _or)
         {
             if (Sqlbuilder != null)
             {
@@ -532,9 +477,9 @@ namespace FastSql.Core
         /// <param name="sb"></param>
         /// <param name="sqlstr">字符数组</param>
         /// <returns></returns>
-        public CreateSql<T> In(string[] sqlstr)
+        public CreateSql<T> In(params string[] sqlstr)
         {
-            if (sqlstr != null)
+            if (sqlstr.Length > 0)
             {
                 var arrstr = ArrayToSplit(sqlstr);
                 Sqlbuilder.Append($" IN ({arrstr})");
@@ -547,9 +492,9 @@ namespace FastSql.Core
         /// <param name="sb"></param>
         /// <param name="sqlstr">字符数据</param>
         /// <returns></returns>
-        public CreateSql<T> NotIn(string[] sqlstr)
+        public CreateSql<T> NotIn(params string[] sqlstr)
         {
-            if (sqlstr != null)
+            if (sqlstr.Length > 0)
             {
                 var arrstr = ArrayToSplit(sqlstr);
                 Sqlbuilder.Append($" NOT IN ({arrstr})");
@@ -611,37 +556,15 @@ namespace FastSql.Core
         /// <returns></returns>
         public CreateSql<T> Order_By(Expression<Func<T, object>> expression)
         {
-            var sb = new StringBuilder();
+
             if (expression != null)
             {
-                if (expression.Body.GetType().Name == "PropertyExpression")
-                {
-                    dynamic body = expression.Body;
-                    if (body != null)
-                    {
-                        sb.Append($"[{body.Member.Name}]");
-                    }
-                }
-                else if (expression.Body.GetType().Name == "NewExpression")
-                {
-                    var body = expression.Body as NewExpression;
-                    if (body != null)
-                    {
-                        foreach (var item in body.Members)
-                        {
-                            sb.Append($"[{item.Name}],");
-                        }
-                    }
-                }
-                else if (expression.Body.GetType().Name == "UnaryExpression")
-                {
-                    dynamic body = expression.Body;
-                    sb.Append($"[{body.Operand.Member.Name}]");
-                }
-                Sqlbuilder.Append($" ORDER BY {sb.ToString().TrimEnd(',')}");
+                Sqlbuilder.Append($" ORDER BY {LamdaToString(expression)}");
             }
             return this;
         }
+
+
         /// <summary>
         ///  顺序
         /// </summary>
@@ -678,7 +601,7 @@ namespace FastSql.Core
                 {
                     sb.Append($"'{Arr[i]}',");
                 }
-                str = sb.ToString().TrimEnd(',');
+                str = sb.ToString();
             }
             return str.TrimEnd(',');
 
@@ -694,7 +617,7 @@ namespace FastSql.Core
                 {
                     sb.Append($"'{Arr[i]}',");
                 }
-                str = sb.ToString().TrimEnd(',');
+                str = sb.ToString();
             }
             return str.TrimEnd(',');
 
@@ -737,6 +660,39 @@ namespace FastSql.Core
                 result.Add(body.Operand.Member.Name);
             }
             return result.ToArray();
+        }
+        /// <summary>
+        /// 获取拉母达字段属性
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        private string LamdaToString(Expression<Func<T, object>> expression)
+        {
+
+            var sb = new StringBuilder();
+            if (expression != null)
+            {
+                if (expression.Body.GetType().Name == "PropertyExpression")
+                {
+                    dynamic body = expression.Body;
+                    if (body != null)
+                    {
+                        sb.Append($"[{body.Member.Name}]");
+                    }
+                }
+                else if (expression.Body.GetType().Name == "NewExpression")
+                {
+                    var body = expression.Body as NewExpression;
+                    if (body != null)
+                    {
+                        foreach (var item in body.Members)
+                        {
+                            sb.Append($"{item.Name},");
+                        }
+                    }
+                }
+            }
+            return sb.ToString().TrimEnd(',');
         }
     }
 }
