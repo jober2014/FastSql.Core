@@ -187,3 +187,6 @@ var data2 = new CreateSql<Users>().SelectNoLock()
             //delete
             
             new CreateSql<Users>().Delete().Where(w=>w.Id==Guid.Empty).Remove();
+
+2.0.3:版本更新BUG内容：
+DbConfig.SqlConnectString 只读改为可赋值。

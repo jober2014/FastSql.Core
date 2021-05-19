@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj": {
-      "version": "2.0.1",
+      "version": "2.0.3",
       "restore": {
         "projectUniqueName": "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj",
         "projectName": "FastSql.Core",
