@@ -33,4 +33,3 @@ D:\Study\FastSql.Core\obj\Debug\net5.0\FastSql.Core.csproj.CoreCompileInputs.cac
 D:\Study\FastSql.Core\obj\Debug\net5.0\FastSql.Core.dll
 D:\Study\FastSql.Core\obj\Debug\net5.0\ref\FastSql.Core.dll
 D:\Study\FastSql.Core\obj\Debug\net5.0\FastSql.Core.pdb
-D:\个人项目\FastSql_Core\obj\Debug\net5.0\FastSql.Core.csprojAssemblyReference.cache

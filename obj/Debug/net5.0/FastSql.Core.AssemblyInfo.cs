@@ -15,11 +15,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("jump")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("https://github.com/jober2014/FastSql.Core/blob/master/README.md")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.2.3")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.4")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.1.4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.5")]
 [assembly: System.Reflection.AssemblyProductAttribute("FastSql.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FastSql.Core")]
-[assembly: System.Reflection.AssemblyVersionAttribute("2.0.2.3")]
+[assembly: System.Reflection.AssemblyVersionAttribute("2.0.1.4")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

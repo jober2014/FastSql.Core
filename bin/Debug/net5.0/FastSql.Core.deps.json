@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "FastSql.Core/2.0.4": {
+      "FastSql.Core/2.0.5": {
         "dependencies": {
           "Dapper": "2.0.35",
           "Microsoft.Data.Sqlite.Core": "5.0.6",
@@ -528,7 +528,7 @@
     }
   },
   "libraries": {
-    "FastSql.Core/2.0.4": {
+    "FastSql.Core/2.0.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

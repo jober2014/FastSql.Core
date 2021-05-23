@@ -18,10 +18,7 @@ namespace FastSql.Core
     /// dapper扩展操作
     /// </summary>
     public static class DapperExt
-    {
-        public static string DBType = DataBaseType.SqlServer;
-
-
+    {        
         private static IDbConnection GetConnection()
         {
 
