@@ -54,7 +54,7 @@ Demo:
         }
     }
     --------------------------------------------------------------------------------------------------------------------------------------------
-    2.0.1 Version 更新说明
+    2.0.0 Version 更新说明
 
     注意：使用此方法时请先配制且加载默认数据库连接配制：
 
@@ -195,7 +195,13 @@ var data2 = new CreateSql<Users>().SelectNoLock()
             
             new CreateSql<Users>().Delete().Where(w=>w.Id==Guid.Empty).Remove();
  ------------------------------------------------------------------------------------------------------------------------------------------
-
+ 2.0.2 版本更新内容：
+新增DataTable返回数据方法的扩展实现。
+1. public static DataTable GetDataTable(this string sql)
+2. public static DataTable GetDataTable<T>(this CreateSql<T> createSql) where T : class, new()
+3. public static DataTable GetDataTable(string sql, Dictionary<string, object> sqlparam)
+4. public static DataTable GetDataTable<T>(this CreateSql<T> createSql, Dictionary<string, object> sqlparam) where T : class, new()
+-------------------------------------------------------------------------------------------------------------------------------------------------------
 2.0.3 版本更新内容：
 修改拉姆达解释时部份类型无法解析的BUG.
 ----------------------------------------------------------------------------------------------------------------------------------------
