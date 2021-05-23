@@ -188,5 +188,11 @@ var data2 = new CreateSql<Users>().SelectNoLock()
             
             new CreateSql<Users>().Delete().Where(w=>w.Id==Guid.Empty).Remove();
 
-2.0.3:版本更新BUG内容：
+2.0.4:版本更新BUG内容：
 DbConfig.SqlConnectString 只读改为可赋值。
+
+2.0.5:版本更新内容：
+
+1.新增多数据库的实现
+
+sqlserver，access，mysql，oracle，postgresql，sqlite

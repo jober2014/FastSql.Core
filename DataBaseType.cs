@@ -33,5 +33,9 @@ namespace FastSql.Core
         /// Sqlite
         /// </summary>
         public const string Sqlite = "sqlite";
+        /// <summary>
+        /// 选择的数据库
+        /// </summary>
+        internal static string SelectSqlType { get; set; } = "sqlserver";
     }
 }

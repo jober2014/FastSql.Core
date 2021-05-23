@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj": {
-      "version": "2.0.3",
+      "version": "2.0.4",
       "restore": {
         "projectUniqueName": "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj",
         "projectName": "FastSql.Core",
@@ -49,9 +49,33 @@
               "target": "Package",
               "version": "[2.0.35, )"
             },
+            "Microsoft.Data.Sqlite.Core": {
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.25, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "System.Data.OleDb": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Data.OracleClient": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
+            "System.Data.SQLite.Core": {
+              "target": "Package",
+              "version": "[1.0.113.7, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",

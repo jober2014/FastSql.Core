@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.3</Version>
+    <Version>2.0.4</Version>
     <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>jump</Copyright>
@@ -11,7 +11,7 @@
 修复DbConfig.SqlConnectString 为只读的问题。</PackageReleaseNotes>
     <Authors>Jump</Authors>
     <Company>Jump</Company>
-    <AssemblyVersion>2.0.2.1</AssemblyVersion>
+    <AssemblyVersion>2.0.2.3</AssemblyVersion>
     <FileVersion>2.0.2.3</FileVersion>
   </PropertyGroup>
 
@@ -21,8 +21,14 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.6" />
+    <PackageReference Include="MySql.Data" Version="8.0.25" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Npgsql" Version="5.0.5" />
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
+    <PackageReference Include="System.Data.OracleClient" Version="1.0.8" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
   </ItemGroup>
 
 </Project>

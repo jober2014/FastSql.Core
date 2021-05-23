@@ -27,6 +27,8 @@ namespace FastSql.Core
 
         private string databaseType = "sqlserver";
 
+
+
         public CreateSql(string table = null)
         {
             mode = default(T);
@@ -69,6 +71,7 @@ namespace FastSql.Core
                     case DataBaseType.Access: this.mark = "@"; break;
                 }
                 this.databaseType = DatabaseType;
+                DataBaseType.SelectSqlType = DatabaseType;
             }
             pro = _type.GetProperties();
 
@@ -656,7 +659,7 @@ namespace FastSql.Core
             }
             else if (expression.Body.GetType().Name == "UnaryExpression")
             {
-                dynamic body = expression.Body;              
+                dynamic body = expression.Body;
                 result.Add(body.Operand.Member.Name);
             }
             return result.ToArray();

@@ -5,6 +5,12 @@ using System.Linq;
 using Dapper;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using System.Data.OracleClient;
+using Npgsql;
+using System.Data.OleDb;
+using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace FastSql.Core
 {
@@ -13,6 +19,53 @@ namespace FastSql.Core
     /// </summary>
     public static class DapperExt
     {
+        public static string DBType = DataBaseType.SqlServer;
+
+
+        private static IDbConnection GetConnection()
+        {
+
+            switch (DataBaseType.SelectSqlType)
+            {
+                case DataBaseType.SqlServer:
+                    return new SqlConnection(DbConfig.SqlConnectString);
+                case DataBaseType.MySql:
+                    return new MySqlConnection(DbConfig.SqlConnectString);
+                case DataBaseType.Oracle:
+                    return new OracleConnection(DbConfig.SqlConnectString);
+                case DataBaseType.PostGreSql:
+                    return new NpgsqlConnection(DbConfig.SqlConnectString);
+                case DataBaseType.Sqlite:
+                    return new SqliteConnection(DbConfig.SqlConnectString);
+                case DataBaseType.Access:
+                    return new OleDbConnection(DbConfig.SqlConnectString);
+                default:
+                    return new SqlConnection(DbConfig.SqlConnectString);
+            }
+
+        }
+
+        private static IDataAdapter getDataAdapter(string sql)
+        {
+            switch (DataBaseType.SelectSqlType)
+            {
+                case DataBaseType.SqlServer:
+                    return new SqlDataAdapter(sql, DbConfig.SqlConnectString);
+                case DataBaseType.MySql:
+                    return new MySqlDataAdapter(sql, DbConfig.SqlConnectString);
+                case DataBaseType.Oracle:
+                    return new OracleDataAdapter(sql, DbConfig.SqlConnectString);
+                case DataBaseType.PostGreSql:
+                    return new NpgsqlDataAdapter(sql, DbConfig.SqlConnectString);
+                case DataBaseType.Sqlite:
+                    return new SQLiteDataAdapter(sql, DbConfig.SqlConnectString);
+                case DataBaseType.Access:
+                    return new OleDbDataAdapter(sql, DbConfig.SqlConnectString);
+                default:
+                    return new SqlDataAdapter(sql, DbConfig.SqlConnectString);
+            }
+
+        }
         /// <summary>
         /// 查询某个对象对象
         /// </summary>
@@ -21,7 +74,7 @@ namespace FastSql.Core
         public static T QueryFirst<T>(this CreateSql<T> createSql) where T : class, new()
         {
             var result = default(T);
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Query<T>(createSql.ToSqlString()).FirstOrDefault();
             }
@@ -36,7 +89,7 @@ namespace FastSql.Core
         public static T QueryFirst<T>(this CreateSql<T> createSql, object param) where T : class, new()
         {
             var result = default(T);
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Query<T>(createSql.ToSqlString(), param).FirstOrDefault();
             }
@@ -53,7 +106,7 @@ namespace FastSql.Core
         {
             var result = new List<T>();
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Query<T>(createSql.ToSqlString()).AsList();
             }
@@ -71,7 +124,7 @@ namespace FastSql.Core
         {
             var result = new List<T>();
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Query<T>(createSql.ToSqlString(), param).AsList();
             }
@@ -87,7 +140,7 @@ namespace FastSql.Core
         public static bool Add<T>(this CreateSql<T> createSql, T model) where T : class, new()
         {
             var result = false;
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql.ToSqlString(), model) > 0;
             }
@@ -160,7 +213,7 @@ namespace FastSql.Core
         {
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql.ToSqlString(), models) > 0;
             }
@@ -178,7 +231,7 @@ namespace FastSql.Core
         {
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql.ToSqlString(), models) > 0;
             }
@@ -238,7 +291,7 @@ namespace FastSql.Core
         {
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql, models) > 0;
             }
@@ -257,7 +310,7 @@ namespace FastSql.Core
         {
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql, models) > 0;
             }
@@ -313,7 +366,7 @@ namespace FastSql.Core
 
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql.ToSqlString()) > 0;
             }
@@ -332,7 +385,7 @@ namespace FastSql.Core
 
             var result = false;
 
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.Execute(createSql.ToSqlString(), models) > 0;
             }
@@ -384,7 +437,7 @@ namespace FastSql.Core
         public static object ExeScalar<T>(this CreateSql<T> createSql, T models) where T : class, new()
         {
             object result = null;
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 result = con.ExecuteScalar(createSql.ToSqlString(), models);
             }
@@ -418,7 +471,7 @@ namespace FastSql.Core
         public static object ExeScalar<T>(this CreateSql<T> createSql, object models = null) where T : class, new()
         {
             object result = null;
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            using (var con = GetConnection())
             {
                 if (models != null)
                 {
@@ -459,16 +512,18 @@ namespace FastSql.Core
         public static DataTable GetDataTable(this string sql)
         {
 
-            var dt = new DataTable();
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            var dt = new DataSet();
+            try
             {
-                using (var sqlDataAdapter = new SqlDataAdapter(sql, con))
-                {
-                    sqlDataAdapter.Fill(dt);
-                }
-
+                var adp = getDataAdapter(sql);
+                adp.Fill(dt);
             }
-            return dt;
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return dt.Tables[0];
 
         }
         /// <summary>
@@ -479,16 +534,17 @@ namespace FastSql.Core
         public static DataTable GetDataTable<T>(this CreateSql<T> createSql) where T : class, new()
         {
 
-            var dt = new DataTable();
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            var dt = new DataSet();
+            try
             {
-                using (var sqlDataAdapter = new SqlDataAdapter(createSql.ToSqlString(), con))
-                {
-                    sqlDataAdapter.Fill(dt);
-                }
-
+                var adp = getDataAdapter(createSql.ToSqlString());
+                adp.Fill(dt);
             }
-            return dt;
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt.Tables[0];
 
         }
         /// <summary>
@@ -500,25 +556,55 @@ namespace FastSql.Core
         public static DataTable GetDataTable(string sql, Dictionary<string, object> sqlparam)
         {
 
-            var dt = new DataTable();
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
+            var dt = new DataSet();
+            var adp = getDataAdapter(sql);
+            try
             {
-
-                using (var sqlDataAdapter = new SqlDataAdapter(sql, con))
+                if (sqlparam != null)
                 {
-                    if (sqlparam != null)
+                    foreach (var item in sqlparam)
                     {
-                        foreach (var item in sqlparam)
+                        switch (DataBaseType.SelectSqlType)
                         {
-                            var parm = new SqlParameter(item.Key, item.Value);
-                            sqlDataAdapter.SelectCommand.Parameters.Add(parm);
+                            case DataBaseType.SqlServer:
+                                IDataParameter parm = new SqlParameter(item.Key, item.Value);
+                                (adp as SqlDataAdapter).SelectCommand.Parameters.Add(parm); break;
+                            case DataBaseType.MySql:
+                                IDataParameter myparm = new MySqlParameter(item.Key, item.Value);
+                                (adp as MySqlDataAdapter).SelectCommand.Parameters.Add(myparm); break;
+
+                            case DataBaseType.Oracle:
+                                IDataParameter orcalparm = new OracleParameter(item.Key, item.Value);
+                                (adp as OracleDataAdapter).SelectCommand.Parameters.Add(orcalparm); break;
+
+                            case DataBaseType.PostGreSql:
+                                IDataParameter npsqlparm = new NpgsqlParameter(item.Key, item.Value);
+                                (adp as OracleDataAdapter).SelectCommand.Parameters.Add(npsqlparm); break;
+
+                            case DataBaseType.Sqlite:
+
+                                IDataParameter sqllitparm = new SqliteParameter(item.Key, item.Value);
+                                (adp as SQLiteDataAdapter).SelectCommand.Parameters.Add(sqllitparm); break;
+
+                            case DataBaseType.Access:
+                                IDataParameter oledparm = new OleDbParameter(item.Key, item.Value);
+                                (adp as OleDbDataAdapter).SelectCommand.Parameters.Add(oledparm); break;
+
+                            default:
+                                IDataParameter sqlparm = new SqlParameter(item.Key, item.Value);
+                                (adp as SqlDataAdapter).SelectCommand.Parameters.Add(sqlparm); break;
+
                         }
                     }
-                    sqlDataAdapter.Fill(dt);
                 }
-
+                adp.Fill(dt);
             }
-            return dt;
+            catch (Exception)
+            {
+                throw;
+            }
+          
+            return dt.Tables[0];
 
         }
         /// <summary>
@@ -529,27 +615,7 @@ namespace FastSql.Core
         /// <returns></returns>
         public static DataTable GetDataTable<T>(this CreateSql<T> createSql, Dictionary<string, object> sqlparam) where T : class, new()
         {
-
-            var dt = new DataTable();
-            using (var con = new SqlConnection(DbConfig.SqlConnectString))
-            {
-
-                using (var sqlDataAdapter = new SqlDataAdapter(createSql.ToSqlString(), con))
-                {
-                    if (sqlparam != null)
-                    {
-                        foreach (var item in sqlparam)
-                        {
-                            var parm = new SqlParameter(item.Key, item.Value);
-                            sqlDataAdapter.SelectCommand.Parameters.Add(parm);
-                        }
-                    }
-                    sqlDataAdapter.Fill(dt);
-                }
-
-            }
-            return dt;
-
+            return GetDataTable(createSql.ToSqlString(),sqlparam);
         }
 
         /// <summary>
