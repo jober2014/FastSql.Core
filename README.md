@@ -204,4 +204,4 @@ DbConfig.SqlConnectString 只读改为可赋值。
 ----------------------------------------------------------------------------------------------------------------------------------------
 2.0.5:版本更新内容：
 1.新增多数据库的实现
-sqlserver，access，mysql，oracle，postgresql，sqlite
+mysql，oracle，postgresql，sqlite，access
