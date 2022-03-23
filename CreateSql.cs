@@ -392,6 +392,21 @@ namespace FastSql.Core
 
         }
         /// <summary>
+        /// and条件
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public CreateSql<T> And(Expression<Func<T, bool>> predicate)
+        {
+            if (predicate != null)
+            {
+                var sqlWhere = SqlBuild.WhereByLambda(predicate);
+                Sqlbuilder.Append(" AND " + sqlWhere);
+            }
+            return this;
+
+        }
+        /// <summary>
         /// 拼接or条件
         /// </summary>
         /// <param name="str"></param>
@@ -401,6 +416,17 @@ namespace FastSql.Core
             if (Sqlbuilder != null)
             {
                 Sqlbuilder.Append(" OR " + _or);
+            }
+            return this;
+
+        }
+
+        public CreateSql<T> Or(Expression<Func<T, bool>> predicate)
+        {
+            if (predicate != null)
+            {
+                var sqlWhere = SqlBuild.WhereByLambda(predicate);
+                Sqlbuilder.Append(" OR " + sqlWhere);
             }
             return this;
 
@@ -421,6 +447,21 @@ namespace FastSql.Core
             return this;
         }
         /// <summary>
+        /// Exists条件
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="exi"></param>
+        /// <returns></returns>
+        public CreateSql<T> Exists(Expression<Func<T, bool>> predicate)
+        {
+            if (predicate != null)
+            {
+                var sqlWhere = SqlBuild.WhereByLambda(predicate);
+                Sqlbuilder.Append($" EXISTS ({sqlWhere})" );
+            }
+            return this;
+        }
+        /// <summary>
         /// NOT EXISTS 
         /// </summary>
         /// <param name="sb"></param>
@@ -431,6 +472,20 @@ namespace FastSql.Core
             if (Sqlbuilder != null)
             {
                 Sqlbuilder.Append($" NOT EXISTS({sqlstr})");
+            }
+            return this;
+        }
+        /// <summary>
+        /// NOT EXISTS 
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public CreateSql<T> NotExists(Expression<Func<T, bool>> predicate)
+        {
+            if (predicate != null)
+            {
+                var sqlWhere = SqlBuild.WhereByLambda(predicate);
+                Sqlbuilder.Append($" NOT EXISTS ({sqlWhere})");
             }
             return this;
         }

@@ -2,17 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>jump</Copyright>
     <NeutralLanguage></NeutralLanguage>
     <PackageReleaseNotes>ORM框架，MSSQL,MYSQL,ORCAL,SQLLITE 等主流数据库，的实现。
 </PackageReleaseNotes>
     <Authors>Jump</Authors>
     <Company>Jump</Company>
-    <AssemblyVersion>2.0.1.4</AssemblyVersion>
-    <FileVersion>2.0.1.4</FileVersion>
+    <AssemblyVersion>2.0.1.6</AssemblyVersion>
+    <FileVersion>2.0.1.6</FileVersion>
+    <PackageTags>ORM</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
