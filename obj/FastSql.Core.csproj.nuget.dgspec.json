@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj": {}
+    "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\FastSql.Core.csproj": {}
   },
   "projects": {
-    "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj": {
+    "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\FastSql.Core.csproj": {
       "version": "2.0.6",
       "restore": {
-        "projectUniqueName": "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\FastSql.Core.csproj",
         "projectName": "FastSql.Core",
-        "projectPath": "D:\\个人项目\\FastSql_Core\\FastSql.Core.csproj",
+        "projectPath": "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\FastSql.Core.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\个人项目\\FastSql_Core\\obj\\",
+        "outputPath": "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "d:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,11 +42,11 @@
           "dependencies": {
             "Dapper": {
               "target": "Package",
-              "version": "[2.0.35, )"
+              "version": "[2.0.123, )"
             },
             "Microsoft.Data.Sqlite.Core": {
               "target": "Package",
-              "version": "[5.0.6, )"
+              "version": "[5.0.17, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -58,7 +54,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.3, )"
+              "version": "[13.0.1, )"
             },
             "Npgsql": {
               "target": "Package",
@@ -78,7 +74,7 @@
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.2, )"
+              "version": "[4.8.5, )"
             }
           },
           "imports": [
@@ -91,12 +87,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.415\\RuntimeIdentifierGraph.json"
         }
       }
     }

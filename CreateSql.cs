@@ -17,17 +17,13 @@ namespace FastSql.Core
 
         private Type _type;
 
-        private String TableName;
+        private String TableName = string.Empty;
 
         private PropertyInfo[] pro;
 
-        private readonly T mode;
+        private T mode = null;
 
         private string mark = "@";
-
-        private string databaseType = "sqlserver";
-
-
 
         public CreateSql(string table = null)
         {
@@ -42,37 +38,16 @@ namespace FastSql.Core
             {
                 TableName = table;
             }
-
-            pro = _type.GetProperties();
-
-        }
-        public CreateSql(string DatabaseType, string table = null)
-        {
-            mode = default(T);
-            Sqlbuilder = new StringBuilder();
-            _type = typeof(T);
-            if (string.IsNullOrEmpty(table))
+            switch (DbConfig.DatabaseType)
             {
-                TableName = typeof(T).Name;
+                case DataBaseType.SqlServer: this.mark = "@"; break;
+                case DataBaseType.MySql: this.mark = "?"; break;
+                case DataBaseType.Oracle: this.mark = ":"; break;
+                case DataBaseType.PostGreSql: this.mark = ":"; break;
+                case DataBaseType.Sqlite: this.mark = "@"; break;
+                case DataBaseType.Access: this.mark = "@"; break;
             }
-            else
-            {
-                TableName = table;
-            }
-            if (!string.IsNullOrEmpty(DatabaseType))
-            {
-                switch (DatabaseType)
-                {
-                    case DataBaseType.SqlServer: this.mark = "@"; break;
-                    case DataBaseType.MySql: this.mark = "?"; break;
-                    case DataBaseType.Oracle: this.mark = ":"; break;
-                    case DataBaseType.PostGreSql: this.mark = ":"; break;
-                    case DataBaseType.Sqlite: this.mark = "@"; break;
-                    case DataBaseType.Access: this.mark = "@"; break;
-                }
-                this.databaseType = DatabaseType;
-                DataBaseType.SelectSqlType = DatabaseType;
-            }
+            DataBaseType.SelectSqlType = DbConfig.DatabaseType;
             pro = _type.GetProperties();
 
         }
@@ -457,7 +432,7 @@ namespace FastSql.Core
             if (predicate != null)
             {
                 var sqlWhere = SqlBuild.WhereByLambda(predicate);
-                Sqlbuilder.Append($" EXISTS ({sqlWhere})" );
+                Sqlbuilder.Append($" EXISTS ({sqlWhere})");
             }
             return this;
         }

@@ -34,3 +34,15 @@ D:\Study\FastSql.Core\obj\Debug\net5.0\FastSql.Core.dll
 D:\Study\FastSql.Core\obj\Debug\net5.0\ref\FastSql.Core.dll
 D:\Study\FastSql.Core\obj\Debug\net5.0\FastSql.Core.pdb
 D:\个人项目\FastSql_Core\obj\Debug\net5.0\FastSql.Core.csproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\FastSql.Core\bin\Debug\net5.0\FastSql.Core.deps.json
+C:\Users\Administrator\source\repos\FastSql.Core\bin\Debug\net5.0\FastSql.Core.dll
+C:\Users\Administrator\source\repos\FastSql.Core\bin\Debug\net5.0\ref\FastSql.Core.dll
+C:\Users\Administrator\source\repos\FastSql.Core\bin\Debug\net5.0\FastSql.Core.pdb
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.csproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.AssemblyInfoInputs.cache
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.AssemblyInfo.cs
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.dll
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\ref\FastSql.Core.dll
+C:\Users\Administrator\source\repos\FastSql.Core\obj\Debug\net5.0\FastSql.Core.pdb
