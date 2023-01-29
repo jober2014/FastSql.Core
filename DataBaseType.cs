@@ -4,7 +4,10 @@ using System.Text;
 
 namespace FastSql.Core
 {
-  public  class DataBaseType
+    /// <summary>
+    /// 数据库类型
+    /// </summary>
+    public sealed class DataBaseType
     {
         /// <summary>
         /// sql server

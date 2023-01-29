@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.6</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>2.0.7</Version>
     <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>jump</Copyright>
