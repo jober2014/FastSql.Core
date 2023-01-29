@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eid8uuw5IpEBwbZJ+pCMn+pwIm0Rjf6yp/+v1RxM37FGPg406MI5BUPX3J68uo/1dNHWExNhkmsOIBc/hQMKsA==",
+  "dgSpecHash": "E0Kiyu18zT4OZIhZyjjVfYk6g1TMotXLiHUDOQFinuFzZV2cTAIAa2u5+dA+f6PSHmSDnOvNC95lHYkGyMItwA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrator\\source\\repos\\FastSql.Core\\FastSql.Core.csproj",
+  "projectFilePath": "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
@@ -51,10 +51,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.text.encoding.codepages\\4.4.0\\system.text.encoding.codepages.4.4.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.text.regularexpressions\\4.3.0\\system.text.regularexpressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }
