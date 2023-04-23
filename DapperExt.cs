@@ -18,7 +18,7 @@ namespace FastSql.Core
     /// dapper扩展操作
     /// </summary>
     public static class DapperExt
-    {        
+    {
         private static IDbConnection GetConnection()
         {
 
@@ -502,6 +502,49 @@ namespace FastSql.Core
 
         }
         /// <summary>
+        ///  执行SQL并返回指定数据
+        /// </summary>
+        /// <typeparam name="T">类类型</typeparam>
+        /// <param name="createSql">SQL构造器</param>
+        /// <param name="models">参数</param>
+        /// <returns></returns>
+        public static K ExeScalar<T, K>(this CreateSql<T> createSql, object models = null) where T : class, new()
+        {
+            K result = default(K);
+            using (var con = GetConnection())
+            {
+                if (models != null)
+                {
+                    result = con.ExecuteScalar<K>(createSql.ToSqlString(), models);
+                }
+                else
+                {
+                    result = con.ExecuteScalar<K>(createSql.ToSqlString());
+                }
+
+            }
+            return result;
+
+        }
+        /// <summary>
+        /// 执行SQL并返回指定数据事务处理
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="createSql">SQL构造器</param>
+        /// <param name="dtran">事务</param>
+        /// <param name="models">参数</param>
+        /// <returns></returns>
+        public static K ExeScalar<T, K>(this CreateSql<T> createSql, DapperTransaction dtran, object models) where T : class, new()
+        {
+            K result = default(K);
+            if (dtran != null)
+            {
+                result = dtran.dbConnection.ExecuteScalar<K>(createSql.ToSqlString(), models, dtran.dbTransaction);
+            }
+            return result;
+
+        }
+        /// <summary>
         /// 返回datatable
         /// </summary>
         /// <param name="sql">SQL</param>
@@ -600,7 +643,7 @@ namespace FastSql.Core
             {
                 throw;
             }
-          
+
             return dt.Tables[0];
 
         }
@@ -612,7 +655,7 @@ namespace FastSql.Core
         /// <returns></returns>
         public static DataTable GetDataTable<T>(this CreateSql<T> createSql, Dictionary<string, object> sqlparam) where T : class, new()
         {
-            return GetDataTable(createSql.ToSqlString(),sqlparam);
+            return GetDataTable(createSql.ToSqlString(), sqlparam);
         }
 
         /// <summary>

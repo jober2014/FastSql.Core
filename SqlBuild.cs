@@ -45,7 +45,11 @@ namespace FastSql.Core
                 {
                     conditionBuilder.Arguments[i] = string.Format("'{0}'", ce.ToString());
                 }
-                else if (ce is int || ce is long || ce is short || ce is decimal || ce is double || ce is float || ce is bool || ce is byte || ce is sbyte)
+                else if (ce is bool)
+                {
+                    conditionBuilder.Arguments[i] = ((bool)ce) ? 1 : 0;
+                }
+                else if (ce is int || ce is long || ce is short || ce is decimal || ce is double || ce is float || ce is byte || ce is sbyte)
                 {
                     conditionBuilder.Arguments[i] = ce.ToString();
                 }

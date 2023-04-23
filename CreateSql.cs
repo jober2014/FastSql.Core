@@ -125,7 +125,19 @@ namespace FastSql.Core
             Sqlbuilder.Append(string.Format(sqlstr, this.LamdaToString(expression), TableName));
             return this;
         }
-
+        /// <summary>
+        /// 查询SQL行数
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="mode">对象</param>
+        /// <param name="colnm">选择字段：默认所有</param>
+        /// <returns></returns>
+        public CreateSql<T> SelectCount()
+        {
+            string sqlstr = "SELECT COUNT(*) AS COUNTS FROM [{0}]";
+            Sqlbuilder.Append(string.Format(sqlstr, TableName));
+            return this;
+        }
         /// <summary>
         /// 插入数据SQL
         /// </summary>
