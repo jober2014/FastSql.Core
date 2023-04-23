@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>2.0.7</Version>
+    <Version>2.0.8</Version>
     <Description>https://github.com/jober2014/FastSql.Core/blob/master/README.md</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>jump</Copyright>
@@ -14,10 +14,20 @@
     <AssemblyVersion>2.0.1.6</AssemblyVersion>
     <FileVersion>2.0.1.6</FileVersion>
     <PackageTags>ORM</PackageTags>
+    <PackageProjectUrl>https://github.com/jober2014/FastSql.Core</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/jober2014/FastSql.Core</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\command-lib\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

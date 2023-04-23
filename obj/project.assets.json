@@ -2628,7 +2628,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "2.0.7",
+    "version": "2.0.8",
     "restore": {
       "projectUniqueName": "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj",
       "projectName": "FastSql.Core",
