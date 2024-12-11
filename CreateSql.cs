@@ -62,17 +62,40 @@ namespace FastSql.Core
         {
             var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}]";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "SELECT {0} FROM {1}";
+            }
             foreach (var item in pro)
             {
                 if (colnm.Length > 0)
                 {
                     if (colnm.Contains(item.Name))
                     {
-                        sb.Append($"[{item.Name}],");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}],");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name},");
+                        }
+
                     }
                 }
                 else
-                    sb.Append($"[{item.Name}],");
+                {
+
+                    if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                    {
+                        sb.Append($"[{item.Name}],");
+                    }
+                    else
+                    {
+                        sb.Append($"{item.Name},");
+                    }
+                }
+
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -82,13 +105,17 @@ namespace FastSql.Core
         public CreateSql<T> Select(Expression<Func<T, object>> expression)
         {
             string sqlstr = "SELECT {0} FROM [{1}]";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "SELECT {0} FROM {1}";
+            }
             Sqlbuilder.Append(string.Format(sqlstr, this.LamdaToString(expression), TableName));
             return this;
         }
         /// <summary>
         /// 查询SQL
         /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
+        /// <typeparam name="T">实体类型（该方法只对SQLSERVER有效）</typeparam>
         /// <param name="mode">对象</param>
         /// <param name="colnm">选择字段：默认所有</param>
         /// <returns></returns>
@@ -96,17 +123,38 @@ namespace FastSql.Core
         {
             var sb = new StringBuilder();
             string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "SELECT {0} FROM {1} WITH(NOLOCK)";
+            }
             foreach (var item in pro)
             {
                 if (colnm.Length > 0)
                 {
                     if (colnm.Contains(item.Name))
                     {
-                        sb.Append($"[{item.Name}],");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}],");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name},");
+                        }
                     }
                 }
                 else
-                    sb.Append($"[{item.Name}],");
+                {
+                    if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                    {
+                        sb.Append($"[{item.Name}],");
+                    }
+                    else
+                    {
+                        sb.Append($"{item.Name},");
+                    }
+                }
+
             }
             Sqlbuilder.Append(string.Format(sqlstr, sb.ToString().TrimEnd(','), TableName));
             sb.Clear();
@@ -115,13 +163,17 @@ namespace FastSql.Core
         /// <summary>
         /// 查询SQL
         /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
+        /// <typeparam name="T">实体类型（该方法只对SQLSERVER有效）</typeparam>
         /// <param name="mode">对象</param>
         /// <param name="colnm">选择字段：默认所有</param>
         /// <returns></returns>
         public CreateSql<T> SelectNoLock(Expression<Func<T, object>> expression)
         {
             string sqlstr = "SELECT {0} FROM [{1}] WITH(NOLOCK)";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "SELECT {0} FROM {1} WITH(NOLOCK)";
+            }
             Sqlbuilder.Append(string.Format(sqlstr, this.LamdaToString(expression), TableName));
             return this;
         }
@@ -135,6 +187,10 @@ namespace FastSql.Core
         public CreateSql<T> SelectCount()
         {
             string sqlstr = "SELECT COUNT(*) AS COUNTS FROM [{0}]";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "SELECT COUNT(*) AS COUNTS FROM {0}";
+            }
             Sqlbuilder.Append(string.Format(sqlstr, TableName));
             return this;
         }
@@ -147,6 +203,10 @@ namespace FastSql.Core
         public CreateSql<T> Insert(bool hasKey = true)
         {
             string sqlstr = "INSERT INTO [{2}]({0}) VALUES({1})";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "INSERT INTO {2}({0}) VALUES({1})";
+            }
             var sb = new StringBuilder();
             var pb = new StringBuilder();
             var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
@@ -154,7 +214,15 @@ namespace FastSql.Core
             {
                 if (hasKey)
                 {
-                    sb.Append($"[{item.Name}],");
+                    if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                    {
+                        sb.Append($"[{item.Name}],");
+                    }
+                    else
+                    {
+                        sb.Append($"{item.Name},");
+                    }
+
                     pb.Append($"{mark}{item.Name},");
                 }
                 else
@@ -165,7 +233,15 @@ namespace FastSql.Core
                     }
                     else
                     {
-                        sb.Append($"[{item.Name}],");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}],");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name},");
+                        }
+
                         pb.Append($"{mark}{item.Name},");
                     }
                 }
@@ -217,6 +293,10 @@ namespace FastSql.Core
         {
 
             string sqlstr = "UPDATE [{0}] SET {1}";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "UPDATE {0} SET {1}";
+            }
             var sb = new StringBuilder();
             //获取实体主键
             var key = pro.Where(w => w.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0);
@@ -238,7 +318,15 @@ namespace FastSql.Core
                     }
                     else
                     {
-                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name}={mark}{item.Name},");
+                        }
+
 
                     }
                 }
@@ -250,7 +338,15 @@ namespace FastSql.Core
                     }
                     else
                     {
-                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name}={mark}{item.Name},");
+                        }
+
                     }
                 }
 
@@ -273,6 +369,10 @@ namespace FastSql.Core
         {
 
             string sqlstr = "UPDATE [{0}] SET {1}";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sqlstr = "UPDATE {0} SET {1}";
+            }
             var sb = new StringBuilder();
             var colnm = ResloveName(expression);
             //获取实体主键
@@ -295,8 +395,16 @@ namespace FastSql.Core
                     }
                     else
                     {
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        }
+                        else
+                        {
 
-                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+                            sb.Append($"{item.Name}={mark}{item.Name},");
+                        }
+
 
                     }
                 }
@@ -308,7 +416,15 @@ namespace FastSql.Core
                     }
                     else
                     {
-                        sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{item.Name}]={mark}{item.Name},");
+                        }
+                        else
+                        {
+                            sb.Append($"{item.Name}={mark}{item.Name},");
+                        }
+
                     }
                 }
 
@@ -328,6 +444,10 @@ namespace FastSql.Core
         public CreateSql<T> Delete()
         {
             var sql = "DELETE FROM [{0}]";
+            if (DataBaseType.SelectSqlType != DataBaseType.SqlServer)
+            {
+                sql = "DELETE FROM {0}";
+            }
             Sqlbuilder.Append(string.Format(sql, TableName));
             return this;
 
@@ -722,7 +842,15 @@ namespace FastSql.Core
                     dynamic body = expression.Body;
                     if (body != null)
                     {
-                        sb.Append($"[{body.Member.Name}]");
+                        if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                        {
+                            sb.Append($"[{body.Member.Name}]");
+                        }
+                        else
+                        {
+                            sb.Append($"{body.Member.Name}");
+                        }
+
                     }
                 }
                 else if (expression.Body.GetType().Name == "NewExpression")
@@ -732,14 +860,30 @@ namespace FastSql.Core
                     {
                         foreach (var item in body.Members)
                         {
-                            sb.Append($"[{item.Name}],");
+                            if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                            {
+                                sb.Append($"[{item.Name}],");
+                            }
+                            else
+                            {
+                                sb.Append($"{item.Name},");
+                            }
+
                         }
                     }
                 }
                 else if (expression.Body.GetType().Name == "UnaryExpression")
                 {
                     dynamic body = expression.Body;
-                    sb.Append($"[{body.Operand.Member.Name}]");
+                    if (DataBaseType.SelectSqlType == DataBaseType.SqlServer)
+                    {
+                        sb.Append($"[{body.Operand.Member.Name}]");
+                    }
+                    else
+                    {
+                        sb.Append($"{body.Operand.Member.Name}");
+                    }
+
                 }
             }
             return sb.ToString().TrimEnd(',');

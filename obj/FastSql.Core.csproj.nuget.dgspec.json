@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj": {}
+    "D:\\studyCode\\FastSql.Core\\FastSql.Core.csproj": {}
   },
   "projects": {
-    "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj": {
+    "D:\\studyCode\\FastSql.Core\\FastSql.Core.csproj": {
       "version": "2.0.8",
       "restore": {
-        "projectUniqueName": "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj",
+        "projectUniqueName": "D:\\studyCode\\FastSql.Core\\FastSql.Core.csproj",
         "projectName": "FastSql.Core",
-        "projectPath": "D:\\CodeStudy\\FastSql.Core\\FastSql.Core.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\CodeStudy\\FastSql.Core\\obj\\",
+        "projectPath": "D:\\studyCode\\FastSql.Core\\FastSql.Core.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\studyCode\\FastSql.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "f:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -58,7 +68,7 @@
             },
             "Npgsql": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[6.0.13, )"
             },
             "System.Data.OleDb": {
               "target": "Package",
@@ -74,7 +84,7 @@
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.5, )"
+              "version": "[4.9.0, )"
             }
           },
           "imports": [
@@ -93,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
